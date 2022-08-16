@@ -14,6 +14,4 @@ public class ObjectNotFoundException extends RuntimeException {
 			super(message);
 			// TODO Auto-generated constructor stub
 		}
-		
-
 }
