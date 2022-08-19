@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cesar.bookstore.domain.Categoria;
+import com.cesar.bookstore.dto.CategoriaDTO;
 import com.cesar.bookstore.repositories.CategoriaRepository;
 import com.cesar.bookstore.service.exceptions.ObjectNotFoundException;
 
@@ -15,22 +16,24 @@ public class CategoriaService {
 	
 	@Autowired CategoriaRepository repository;
 	
-	public Categoria findById(Integer id) {
-		
+	public Categoria findById(Integer id) {		
 		Optional<Categoria> obj = repository.findById(id);
-		return obj.orElseThrow(() -> 
-		new ObjectNotFoundException("Objeto não econtrado! Id: " + id + 
-				", Tipo: " + Categoria.class.getName()));
-	}
-	
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não econtrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+	}	
 	
 	public List<Categoria> findAll() {
 		return repository.findAll();
-	}
-	
+	}	
 	
 	public Categoria create(Categoria obj) {
 		obj.setId(null);
+		return repository.save(obj);
+	}
+
+	public Categoria update(Integer id, CategoriaDTO objDto) {
+		Categoria obj = findById(id);
+		obj.setNome(objDto.getNome());
+		obj.setDescricao(objDto.getDescricao());
 		return repository.save(obj);
 	}
 
